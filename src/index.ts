@@ -1,20 +1,45 @@
-import { el, mount } from 'redom';
-const PROJECT_TITLE = 'metronome';
+import * as Tone from 'tone';
 
-const title = el('h1', PROJECT_TITLE);
-mount(document.body, title);
-
-const BPM = 30;
+const BPM = 300;
 
 let agg = 0;
 let count = 1;
 let inc_constant = 100;
+let interval: NodeJS.Timer;
 
-setInterval(() => {
-  agg+= inc_constant;
-  if (agg >=((60 * 1000) / BPM)) {
-    console.log(count);
-    count = count >= 4 ? 1 : count + 1;
-    agg = 0;
-  }
-}, inc_constant);
+const high = new Tone.Player('assets/sounds/high_clave.wav').toMaster();
+const low = new Tone.Player('assets/sounds/low_clave.wav').toMaster();
+
+const startMet = () => {
+  interval = setInterval(() => {
+    agg+= inc_constant;
+    if (agg >=((60 * 1000) / BPM)) {
+      if (count === 1) {
+        high.start();
+      } else {
+        low.start();
+      }
+      count = count >= 4 ? 1 : count + 1;
+      agg = 0;
+    }
+  }, inc_constant);
+};
+
+const stopMet = () => {
+  clearInterval(interval);
+};
+
+
+const start: HTMLElement = document.getElementById('start');
+start.onclick = () => {
+  startMet();
+};
+
+const stop = document.getElementById('stop');
+stop.onclick = () => {
+  stopMet();
+}
+
+
+
+// todo: credit https://freesfx.co.uk
