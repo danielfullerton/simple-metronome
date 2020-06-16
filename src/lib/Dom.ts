@@ -10,18 +10,15 @@ export class Dom {
   init () {
     this.document.getElementById('start').onclick = () => {
       this.metronome.start();
-      this.setIndicators();
     }
 
     this.document.getElementById('stop').onclick = () => {
       this.metronome.stop();
-      this.setIndicators();
     }
 
     this.document.getElementById('bpm').onchange = (e: any) => {
       const value = Number.parseInt(e.target.value) || 120;
       this.metronome.setTempo(value);
-      this.setIndicators();
     }
 
     this.document.getElementById('notes').onchange = (e: any) => {
@@ -32,30 +29,31 @@ export class Dom {
 
     this.document.getElementById('tempoPercentage').onchange = (e: any) => {
       this.metronome.setDecimalOfTempo((Number.parseInt(e.target.value)) / 100);
-      this.setIndicators();
     }
 
     this.window.addEventListener('keypress', e => {
       if (e.key === ' ') {
         this.metronome.toggle();
-        this.setIndicators();
       }
     });
 
     this.setIndicators();
+
     this.metronome.setOnTick(count => {
       const indicator = this.document.getElementById(`indicator-${count}`);
+      const orig = indicator.style.background;
       setTimeout(() => {
         indicator.style.background = 'blue';
       }, 50);
       setTimeout(() => {
-        indicator.style.background = 'red';
+        indicator.style.background = orig;
       }, 250);
     });
-  }
 
-  globalChange () {
-    this.setIndicators();
+    this.metronome.setShouldPlayCount(count => {
+      const indicator = this.document.getElementById(`indicator-${count}`);
+      return !/.*disabled.*/ig.test(indicator.className);
+    });
   }
 
   setIndicators () {
@@ -68,6 +66,13 @@ export class Dom {
       const indicator = document.createElement('div');
       indicator.className = 'indicator';
       indicator.id = `indicator-${i + 1}`;
+      indicator.onclick = () => {
+        if (/.*disabled.*/ig.test(indicator.className)) {
+          indicator.className = 'indicator';
+        } else {
+          indicator.className += ' disabled';
+        }
+      };
       indicatorEl.appendChild(indicator);
     }
   }
