@@ -11,26 +11,21 @@ export class Dom {
     this.document.getElementById('start').onclick = () => {
       this.metronome.start();
     }
-
     this.document.getElementById('stop').onclick = () => {
       this.metronome.stop();
     }
-
     this.document.getElementById('bpm').onchange = (e: any) => {
       const value = Number.parseInt(e.target.value) || 120;
       this.metronome.setTempo(value);
     }
-
     this.document.getElementById('notes').onchange = (e: any) => {
       const value = Number.parseInt(e.target.value) || 100;
       this.metronome.setNotesPerBar(value);
       this.setIndicators();
     }
-
     this.document.getElementById('tempoPercentage').onchange = (e: any) => {
       this.metronome.setDecimalOfTempo((Number.parseInt(e.target.value)) / 100);
     }
-
     this.window.addEventListener('keypress', e => {
       if (e.key === ' ') {
         this.metronome.toggle();
@@ -38,22 +33,8 @@ export class Dom {
     });
 
     this.setIndicators();
-
-    this.metronome.setOnTick(count => {
-      const indicator = this.document.getElementById(`indicator-${count}`);
-      const orig = indicator.style.background;
-      setTimeout(() => {
-        indicator.style.background = 'blue';
-      }, 50);
-      setTimeout(() => {
-        indicator.style.background = orig;
-      }, 250);
-    });
-
-    this.metronome.setShouldPlayCount(count => {
-      const indicator = this.document.getElementById(`indicator-${count}`);
-      return !/.*disabled.*/ig.test(indicator.className);
-    });
+    this.setOnTick();
+    this.setShouldPlayCount();
   }
 
   setIndicators () {
@@ -75,5 +56,25 @@ export class Dom {
       };
       indicatorEl.appendChild(indicator);
     }
+  }
+
+  setOnTick () {
+    this.metronome.setOnTick(count => {
+      const indicator = this.document.getElementById(`indicator-${count}`);
+      const orig = indicator.style.background;
+      setTimeout(() => {
+        indicator.style.background = 'blue';
+      }, 50);
+      setTimeout(() => {
+        indicator.style.background = orig;
+      }, 250);
+    });
+  }
+
+  setShouldPlayCount () {
+    this.metronome.setShouldPlayCount(count => {
+      const indicator = this.document.getElementById(`indicator-${count}`);
+      return !/.*disabled.*/ig.test(indicator.className);
+    });
   }
 }

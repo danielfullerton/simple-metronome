@@ -85,18 +85,6 @@ export class Metronome {
     this.tempo = tempo;
   }
 
-  getTempo () {
-    return this.tempo;
-  }
-
-  setSound (sound: Sound) {
-    this.sound = sound;
-  }
-
-  getSound () {
-    return this.sound;
-  }
-
   setNotesPerBar (notes: number) {
     if (notes < 1 || notes > 20) {
       throw new Error('Notes per bar must be less than 20 and greater than 1.')
@@ -115,10 +103,6 @@ export class Metronome {
     }
 
     this.decimalOfTempo = decimal;
-  }
-
-  getDecimalOfTempo () {
-    return this.decimalOfTempo;
   }
 
   setOnTick (onTick: OnTick<void>) {
