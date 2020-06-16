@@ -1,4 +1,4 @@
-import * as Tone from 'tone';
+import { Sound, Sounds } from './Sounds';
 
 export class Metronome {
   private tempo = 120;
@@ -8,9 +8,7 @@ export class Metronome {
   private stopped = true;
   private aggregator = 0;
   private notesPerBar = 4;
-
-  private highTone: any = new Tone.Player('assets/sounds/high_clave.wav').toMaster();
-  private lowTone: any = new Tone.Player('assets/sounds/low_clave.wav').toMaster();
+  private sound = Sounds.Clave;
 
   start () {
     if (this.playing) {
@@ -52,9 +50,9 @@ export class Metronome {
 
   playNote () {
     if (this.noteCount === 1) {
-      this.highTone.start();
+      this.sound.accent.start();
     } else {
-      this.lowTone.start();
+      this.sound.fill.start();
     }
   }
 
@@ -77,5 +75,13 @@ export class Metronome {
 
   getTempo () {
     return this.tempo;
+  }
+
+  setSound (sound: Sound) {
+    this.sound = sound;
+  }
+
+  getSound () {
+    return this.sound;
   }
 }
