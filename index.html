@@ -1,21 +1,35 @@
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>metronome</title>
 </head>
 <body>
-    <label for="bpm">BPM:</label>
-    <input id="bpm" type="number" value="120"><br />
+    <h1>Simple Metronome</h1>
 
-    <label for="notes">Notes Per Bar:</label>
-    <input id="notes" type="number" value="4"><br />
+    <div class="input-section">
+        <label for="bpm">BPM:</label>
+        <input id="bpm" type="number" value="120">
+    </div>
 
-    <label for="tempoPercentage">Tempo Percentage:</label>
-    <input id="tempoPercentage" type="number" value="100" min="25" max="200"><br/>
+    <div class="input-section">
+        <label for="notes">Notes Per Bar:</label>
+        <input id="notes" type="number" value="4">
+    </div>
 
-    <button id="start">Start</button><br />
-    <button id="stop">Stop</button>
+    <div class="input-section">
+        <label for="tempoPercentage">Tempo Percentage:</label>
+        <input id="tempoPercentage" type="number" value="100" min="25" max="200">
+    </div>
+
+    <div class="start-stop-section">
+        <button id="start">Start</button><br />
+        <button id="stop">Stop</button>
+    </div>
 
     <div id="indicators"></div>
+
+    <p>
+        (SFX provided by https://freesfx.co.uk)
+    </p>
 </body>
 </html>
