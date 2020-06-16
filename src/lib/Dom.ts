@@ -17,11 +17,17 @@ export class Dom {
     }
 
     this.document.getElementById('bpm').onchange = (e: any) => {
-      this.metronome.setTempo(Number.parseInt(e.target.value));
+      const value = Number.parseInt(e.target.value) || 120;
+      this.metronome.setTempo(value);
     }
 
     this.document.getElementById('notes').onchange = (e: any) => {
-      this.metronome.setNotesPerBar(Number.parseInt(e.target.value));
+      const value = Number.parseInt(e.target.value) || 100;
+      this.metronome.setNotesPerBar(value);
+    }
+
+    this.document.getElementById('tempoPercentage').onchange = (e: any) => {
+      this.metronome.setDecimalOfTempo((Number.parseInt(e.target.value)) / 100);
     }
 
     this.window.addEventListener('keypress', e => {

@@ -9,6 +9,7 @@ export class Metronome {
   private aggregator = 0;
   private notesPerBar = 4;
   private sound = Sounds.Clave;
+  private decimalOfTempo = 1;
 
   start () {
     if (this.playing) {
@@ -26,7 +27,7 @@ export class Metronome {
 
     // todo: can we reduce or remove latency between intervals? Drift correction works for aggregation timing, not so much for consistent interval timing.
     this.aggregator += this.incrementConstant;
-    if (this.aggregator >= (60000 / this.tempo) || first) {
+    if (this.aggregator >= (60000 / (this.tempo * this.decimalOfTempo)) || first) {
       this.playNote();
       this.noteCount = this.noteCount >=this.notesPerBar ? 1 : this.noteCount + 1;
       this.aggregator = 0;
@@ -95,5 +96,17 @@ export class Metronome {
 
   getNotesPerbar () {
     return this.notesPerBar;
+  }
+
+  setDecimalOfTempo (decimal: number) {
+    if (decimal > 2 || decimal < .25) {
+      throw new Error('Tempo percentage should be between 25% and 200%');
+    }
+
+    this.decimalOfTempo = decimal;
+  }
+
+  getDecimalOfTempo () {
+    return this.decimalOfTempo;
   }
 }
