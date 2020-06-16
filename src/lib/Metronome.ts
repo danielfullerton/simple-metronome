@@ -84,4 +84,16 @@ export class Metronome {
   getSound () {
     return this.sound;
   }
+
+  setNotesPerBar (notes: number) {
+    if (notes < 1 || notes > 20) {
+      throw new Error('Notes per bar must be less than 20 and greater than 1.')
+    }
+
+    this.notesPerBar = notes;
+  }
+
+  getNotesPerbar () {
+    return this.notesPerBar;
+  }
 }
