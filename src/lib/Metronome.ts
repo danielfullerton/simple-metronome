@@ -1,5 +1,9 @@
 import { Sound, Sounds } from './Sounds';
 
+export interface OnTick {
+  (noteCount: number): void;
+}
+
 export class Metronome {
   private tempo = 120;
   private noteCount = 1;
@@ -10,6 +14,9 @@ export class Metronome {
   private notesPerBar = 4;
   private sound = Sounds.Clave;
   private decimalOfTempo = 1;
+  private onTick: OnTick = () => {};
+
+  constructor () {}
 
   start () {
     if (this.playing) {
@@ -55,6 +62,7 @@ export class Metronome {
     } else {
       this.sound.fill.start();
     }
+    this.onTick(this.noteCount);
   }
 
   count (reset = false) {
@@ -108,5 +116,9 @@ export class Metronome {
 
   getDecimalOfTempo () {
     return this.decimalOfTempo;
+  }
+
+  setOnTick (onTick: OnTick) {
+    this.onTick = onTick;
   }
 }
